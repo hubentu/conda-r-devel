@@ -1,0 +1,115 @@
+{% set native = 'm2w64-' if win else '' %}
+{% set posix= 'm2-' if win else '' %}
+{% set version= '4.0.0' %}
+
+package:
+  name: r-devel
+  version: {{ version }}
+
+source:
+  url: https://cran.r-project.org/src/base-prerelease/R-devel.tar.gz
+
+build:
+  number: 0
+  rpaths:
+    - lib/R/lib/
+    - lib/
+  no_link:
+    # These files are modified by R CMD javareconf and can
+    # point to different Java implementations in each env.
+    - lib/R/etc/Makeconf
+    - lib/R/etc/ldpaths
+    - lib/R/etc/javaconf
+    - lib/R/etc/x64/Makeconf
+    - lib/R/etc/x64/ldpaths
+    - lib/R/etc/x64/javaconf
+  detect_binary_files_with_prefix: true
+
+requirements:
+  build:
+    - posix                    # [win]
+    - m2-texinfo-tex           # [win]
+    - m2-texinfo               # [win]
+    - m2-curl                  # [win]
+    - m2-p7zip                 # [win]
+    - readline                 # [not win]
+    - ncurses            # [not win]
+    - jpeg 9*                  # [not win]
+    - curl                     # [not win]
+    - xz 5.2.*                 # [not win]
+    - libpng >=1.6.27,<1.7     # [not win]
+    - {{posix}}pkg-config
+    - {{posix}}autoconf
+    - {{posix}}automake-wrapper # [win]
+    - {{posix}}automake         # [not win]
+    - {{native}}bzip2          # [not osx]
+    - {{native}}libjpeg-turbo  # [win]
+    - {{native}}toolchain      # [win]
+    - {{native}}libiconv       # [win]
+    - {{native}}gmp            # [win]
+    - {{native}}fftw           # [win]
+    - {{native}}xz             # [win]
+    - {{native}}mpfr           # [win]
+    - {{native}}libsndfile     # [win]
+    - {{native}}bwidget        # [win]
+    - {{native}}tktable        # [win]
+    - {{native}}libpng         # [win]
+    - {{native}}pango 1.40.*   # [not win]
+    - {{native}}icu       # [not win]
+    - {{native}}pcre           # [win]
+    - {{native}}tk
+    - {{native}}zlib
+    - {{native}}gsl
+    - {{native}}libtiff
+    - {{native}}libxml2
+#   - mkl
+
+  run:
+    - readline                 # [not win]
+    - ncurses             # [not win]
+    - libgcc                   # [not win]
+    - {{native}}gcc-libs       # [win]
+    - jpeg 9*                  # [not win]
+    - curl                     # [not win]
+    - xz 5.2.*                 # [not win]
+    - libpng >=1.6.27,<1.7     # [not win]
+    - {{native}}bzip2          # [not osx]
+    - {{native}}libjpeg-turbo  # [win]
+    - {{native}}libiconv       # [win]
+    - {{native}}gmp            # [win]
+    - {{native}}fftw           # [win]
+    - {{native}}xz             # [win]
+    - {{native}}mpfr           # [win]
+    - {{native}}libsndfile     # [win]
+    - {{native}}bwidget        # [win]
+    - {{native}}tktable        # [win]
+    - {{native}}libpng         # [win]
+    - {{native}}pango 1.40.*   # [not win]
+    - {{native}}icu       # [not win]
+    - {{native}}pcre           # [win]
+    - {{native}}tk
+    - {{native}}zlib
+    - {{native}}gsl
+    - {{native}}libtiff
+    - {{native}}libxml2
+#   - mkl
+
+test:
+  commands:
+    - R -h
+    - R --version
+    - Rscript --version
+    - Rscript -e  'cat("ok\\n")'
+    - open # [win]
+    # There doesn't seem to be a way to test this one
+    # - RSetReg # [win]
+    - Rfe --help # [win]
+    - Rterm --help # [win]
+    - Rterm --version # [win]
+
+about:
+  home: http://www.r-project.org/
+  license: GPL-3.0
+  license_family: GPL
+  license_file: COPYING
+  summary: 'R is a free software environment for statistical computing and graphics.'
