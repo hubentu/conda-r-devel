@@ -1,6 +1,11 @@
 ## R development version (4.0.0) conda recipe
 * Copied from https://github.com/conda/conda-recipes/blob/master/r-base
-* Only tested on ubuntu 18.04
+* Only tested on ubuntu 18.04 and miniconda3
+
+Add forge channel.
+```sh
+conda config --add channels conda-forge
+```
 
 ## Howto
 * Create r-devel env
