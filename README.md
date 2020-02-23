@@ -32,5 +32,6 @@ conda install readline
 
 * Use R 4.0
 ```sh
+conda activate r-devel
 R --version
 ```
